@@ -31,20 +31,12 @@ public abstract class clnFinder {
 		return 'select ' + getFields() + ' from ' + mSObjectName + ' ';
 	}
 
-	protected List<clnModel> getSelectWhere(String field, String whereClause) {
-		List<clnModel> result = new List<clnModel>();
-        for (sObject obj : Database.query(getSelect() + 'where ' + field + ' =: whereClause')) {
-            result.add(new clnModel(obj));
-        }
-        return result;
+	protected List<sObject> getSelectWhere(String field, String whereClause) {
+        return Database.query(getSelect() + 'where ' + field + ' =: whereClause');
 	}
 
-	protected List<clnModel> getSelectIn(String field, List<String> whereIn) {
-		List<clnModel> result = new List<clnModel>();
-        for (sObject obj : Database.query(getSelect() + 'where ' + field + ' in: whereIn')) {
-            result.add(new clnModel(obj));
-        }
-        return result;
+	protected List<sObject> getSelectIn(String field, List<String> whereIn) {
+        return Database.query(getSelect() + 'where ' + field + ' in: whereIn');
 	}
 
 	public virtual dpbModel byId(Id recId) {

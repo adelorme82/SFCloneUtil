@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
-		<members>clnChild</members>
 		<members>clnCloneRelationship</members>
 		<members>clnCloneResult</members>
 		<members>clnCloneUtil</members>
 		<members>clnCloner</members>
 		<members>clnFinder</members>
 		<members>clnModel</members>
-		<members>clnParent</members>
+		<members>clnGenericObject</members>
 		<name>ApexClass</name>
 	</types>
 	<types>
@@ -21,7 +20,7 @@
 	</types>
 	<types>
 		<members>Clone_Parent__c</members>
-		<members>Clone_Child__c</members>
+        <members>Clone_Child__c</members>
 		<members>Clone_Relationship__c</members>
 		<name>CustomObject</name>
 	</types>

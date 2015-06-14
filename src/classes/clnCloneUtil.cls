@@ -1,5 +1,5 @@
 public with sharing class clnCloneUtil {
-	public clnCloneUtil(List<Id> parentIds) {
+	public clnCloneUtil() {
         if (clnCloneRelationship.find.all().isEmpty()) {
             throw new NoConfiguredRelationshipsException(
                 'Please configure a Clone Relationship custom setting');
@@ -7,17 +7,19 @@ public with sharing class clnCloneUtil {
 	}
 
     public void clone(List<Id> parentIds) {
-        clone(new Set<Id>(parentIds));
+        cloneRecords(parentIds);
     }
 
-    public void clone(Set<Id> parentIds) {
+    private void clone(clnCloneResult previousResult) {
+        cloneRecords(new List<Id>(previousResult.getOldIds()));
+    }
+
+    private void cloneRecords(List<Id> parentIds) {
         clnCloneResult result = clnCloner.cloneObjects(parentIds);
         if (result != null) {
             clone(result);
         }
     }
-
-
 
     public class NoConfiguredRelationshipsException extends Exception {}
 }

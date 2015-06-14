@@ -1,28 +1,22 @@
 public with sharing class clnCloneResult {
 
-    private Map<Id, clnModel> mOldIdsToNewObjects;
-    private Map<Id, clnModel> mOldIdsToOldObjects;
+    private Map<Id, clnGenericObject> mOldIdsToNewObjects;
+    private Map<Id, clnGenericObject> mOldIdsToOldObjects;
 
 	public clnCloneResult() {
-        mOldIdsToNewObjects = new Map<Id, clnModel>();
-        mOldIdsToOldObjects = new Map<Id, clnModel>();
+        mOldIdsToNewObjects = new Map<Id, clnGenericObject>();
+        mOldIdsToOldObjects = new Map<Id, clnGenericObject>();
 	}
 
-    public clnParent addClone(clnParent obj) {
-        clnParent newObj = new clnParent(obj.getObj().clone(false, true));
+    public clnGenericObject addClone(clnGenericObject obj) {
+        clnGenericObject newObj = new clnGenericObject(obj.getObj().clone(false, true));
         mOldIdsToNewObjects.put(obj.getId(), newObj);
         mOldIdsToOldObjects.put(obj.getId(), obj);
         return newObj;
     }
 
-    public clnChild addClone(clnChild obj) {
-        clnChild newObj = new clnChild(obj.getObj().clone(false, true));
-        mOldIdsToNewObjects.put(obj.getId(), newObj);
-        mOldIdsToOldObjects.put(obj.getId(), obj);
-        return newObj;
-    }
 
-    public List<clnModel> getNewObjects() {
+    public List<clnGenericObject> getNewObjects() {
         return mOldIdsToNewObjects.values();
     }
 
@@ -30,11 +24,7 @@ public with sharing class clnCloneResult {
         return mOldIdsToNewObjects.keyset();
     }
 
-    public List<clnModel> getOldObjects() {
-        return mOldIdsToOldObjects.values();
-    }
-
-    public List<clnParent> getOldObjectsAsParents() {
+    public List<clnGenericObject> getOldObjects() {
         return mOldIdsToOldObjects.values();
     }
 

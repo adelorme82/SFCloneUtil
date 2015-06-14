@@ -1,10 +1,10 @@
-public with sharing class clnParent extends clnModel{
+public with sharing class clnGenericObject extends clnModel{
 
     public static Finder find;
 
     private Id mOldId;
 
-    public clnParent(sObject obj) {
+    public clnGenericObject(sObject obj) {
         super(obj);
     }
 
@@ -24,8 +24,8 @@ public with sharing class clnParent extends clnModel{
             super(sObjectName);
         }
 
-        public List<clnParent> byIds(List<Id> parentIds) {
-            return (List<clnParent>)getSelectIn('Id', parentIds);
+        public List<clnGenericObject> byIds(List<Id> parentIds) {
+            return (List<clnGenericObject>)getSelectIn('Id', parentIds);
         }
     }
 }

@@ -7,8 +7,9 @@ public with sharing class clnCloner {
             return null;
         }
 
-        clnParent.setupFinder(relationship.getParentObject());
-        List<clnParent> parents = clnParent.find.byIds(parentIds);
+        clnGenericObject.setupFinder(relationship.getParentObject(), null);
+        List<clnGenericObject> parents = clnGenericObject.find.byIds(parentIds);
+
         return clone(parents, parentIds, relationship);
     }
 
@@ -19,16 +20,16 @@ public with sharing class clnCloner {
             return null;
         }
 
-        List<clnParent> parents = previousCloneResult.getOldObjects();
+        List<clnGenericObject> parents = previousCloneResult.getOldObjects();
         List<Id> parentIds = new List<Id>(previousCloneResult.getOldIds());
 
         return clone(parents, parentIds, relationship);
     }
 
-    private static clnCloneResult clone(List<clnParent> parents, List<Id> parentIds,  clnCloneRelationship relationship) {
+    private static clnCloneResult clone(List<clnGenericObject> parents, List<Id> parentIds,  clnCloneRelationship relationship) {
 
-        clnChild.setupFinder(relationship.getChildObject(), relationship.getLookupField());
-        List<clnChild> children = clnChild.find.byParentIds(parentIds);
+        clnGenericObject.setupFinder(relationship.getChildObject(), relationship.getLookupField());
+        List<clnGenericObject> children = clnGenericObject.find.byParentIds(parentIds);
 
         clnCloneResult parentResult = cloneParents(parents);
 
@@ -38,10 +39,10 @@ public with sharing class clnCloner {
 
     }
 
-    private static clnCloneResult cloneParents(List<clnParent> parents) {
+    private static clnCloneResult cloneParents(List<clnGenericObject> parents) {
         clnCloneResult parentResult = new clnCloneResult();
 
-        for (clnParent parent : parents) {
+        for (clnGenericObject parent : parents) {
             parentResult.addClone(parent);
         }
 
@@ -51,11 +52,11 @@ public with sharing class clnCloner {
 
     }
 
-    private static clnCloneResult cloneChildren(List<clnChild> children, clnCloneResult parentResult) {
+    private static clnCloneResult cloneChildren(List<clnGenericObject> children, clnCloneResult parentResult) {
         clnCloneResult childResult = new clnCloneResult();
 
-        for (clnChild child : children) {
-            clnChild newChild = childResult.addClone(child);
+        for (clnGenericObject child : children) {
+            clnGenericObject newChild = childResult.addClone(child);
             newChild.setParentId(parentResult.getNewId(child.getParentId()));
         }
 
@@ -63,19 +64,4 @@ public with sharing class clnCloner {
 
         return childResult;
     }
-
-
-    //private static Map<Id, List<clnChild>> getParentIdsToChildren(List<clnChild> children) {
-    //    Map<Id, List<clnChild>> parentIdsToChildren = new Map<Id, List<clnChild>>();
-    //    for (clnChild child : children) {
-    //        Id parentId = child.getParentId();
-    //        if (parentIdsToChildren.containsKey(parentId)) {
-    //            parentIdsToChildren.get(parentId).add(child);
-    //        }
-    //        else {
-    //            parentIdsToChildren.put(parentId, new List<clnChild>{child});
-    //        }
-    //    }
-    //    return parentIdsToChildren;
-    //}
 }

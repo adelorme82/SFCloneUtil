@@ -34,8 +34,20 @@ public with sharing class clnGenericObject extends clnModel{
             super(sObjectName);
         }
 
+        public List<clnGenericObject> byIds(List<Id> parentIds) {
+            return decorate(getSelectIn('Id', parentIds));
+        }
+
         public List<clnGenericObject> byParentIds(List<Id> parentIds) {
-            return (List<clnGenericObject>)getSelectIn(getParentField(), parentIds);
+            return decorate(getSelectIn(getParentField(), parentIds));
+        }
+
+        private List<clnGenericObject> decorate(List<sObject> objects) {
+            List<clnGenericObject> decorators = new List<clnGenericObject>();
+            for (sObject obj : objects) {
+                decorators.add(new clnGenericObject(obj));
+            }
+            return decorators;
         }
     }
 }
