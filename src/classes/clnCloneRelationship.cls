@@ -1,4 +1,4 @@
-public with sharing class clnCloneRelationship extends clnModel{
+public with sharing class clnCloneRelationship extends clnModel implements Comparable {
 
     public static Finder find = new Finder('Clone_Relationship__c');
 
@@ -40,6 +40,12 @@ public with sharing class clnCloneRelationship extends clnModel{
         mObj.put('Parent_Object__c', parentObject);
     }
 
+    public Integer compareTo(Object other) {
+        //If this is the parent of the other, then it comes before
+        return getChildObject() == ((clnCloneRelationship)other).getParentObject()
+            ? -1 : 1;
+    }
+
     public class Finder extends clnFinder {
         public Finder(String sObjectName) {
             super(sObjectName);
@@ -55,6 +61,7 @@ public with sharing class clnCloneRelationship extends clnModel{
             for (Clone_Relationship__c clone : Clone_Relationship__c.getAll().values()) {
                 relationships.add(new clnCloneRelationship(clone));
             }
+            relationships.sort();
             return relationships;
         }
 
@@ -69,6 +76,8 @@ public with sharing class clnCloneRelationship extends clnModel{
             if (getRelationshipIterator().hasNext()) {
                 return getRelationshipIterator().next();
             }
+            //---Reset iterator
+            mRelationshipIterator = null;
             return null;
         }
 

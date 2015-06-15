@@ -53,30 +53,18 @@
     <enableReports>false</enableReports>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
-    <fields>
-        <fullName>Grandparent__c</fullName>
-        <deleteConstraint>Restrict</deleteConstraint>
-        <externalId>false</externalId>
-        <label>Clone Grandparent</label>
-        <referenceTo>Clone_Grandparent__c</referenceTo>
-        <relationshipLabel>Clone Parents</relationshipLabel>
-        <relationshipName>Clone_Parents</relationshipName>
-        <required>true</required>
-        <trackTrending>false</trackTrending>
-        <type>Lookup</type>
-    </fields>
-    <label>Clone Parent</label>
+    <label>Clone Grandparent</label>
     <listViews>
         <fullName>All</fullName>
         <filterScope>Everything</filterScope>
         <label>All</label>
     </listViews>
     <nameField>
-        <displayFormat>PAR-{00000}</displayFormat>
-        <label>Parent Name</label>
+        <displayFormat>CLNGP-{00000}</displayFormat>
+        <label>Clone Grandparent Name</label>
         <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>Clone Parents</pluralLabel>
+    <pluralLabel>Clone Grandparents</pluralLabel>
     <searchLayouts/>
     <sharingModel>ReadWrite</sharingModel>
 </CustomObject>

@@ -7,6 +7,16 @@ newRelationship.setChildObject('Clone_Child__c');
 newRelationship.setLookupField('Parent__c');
 newRelationship.setParentObject('Clone_Parent__c');
 relationships.add(newRelationship);
+
+newRelationship = new clnCloneRelationship();
+newRelationship.setName('Test 2');
+newRelationship.setChildObject('Clone_Parent__c');
+newRelationship.setLookupField('Grandparent__c');
+newRelationship.setParentObject('Clone_Grandparent__c');
+relationships.add(newRelationship);
+
+
+
 clnModel.save(relationships);
 
 delete [SELECT Id FROM Clone_Child__c];

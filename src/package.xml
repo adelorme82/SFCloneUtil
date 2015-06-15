@@ -5,9 +5,10 @@
 		<members>clnCloneResult</members>
 		<members>clnCloneUtil</members>
 		<members>clnCloner</members>
+		<members>clnDebugUtils</members>
 		<members>clnFinder</members>
-		<members>clnModel</members>
 		<members>clnGenericObject</members>
+		<members>clnModel</members>
 		<name>ApexClass</name>
 	</types>
 	<types>
@@ -20,7 +21,8 @@
 	</types>
 	<types>
 		<members>Clone_Parent__c</members>
-        <members>Clone_Child__c</members>
+		<members>Clone_Child__c</members>
+		<members>Clone_Grandparent__c</members>
 		<members>Clone_Relationship__c</members>
 		<name>CustomObject</name>
 	</types>

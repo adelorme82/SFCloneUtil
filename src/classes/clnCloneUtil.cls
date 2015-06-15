@@ -7,15 +7,14 @@ public with sharing class clnCloneUtil {
 	}
 
     public void clone(List<Id> parentIds) {
-        cloneRecords(parentIds);
+        clnCloneResult result = clnCloner.cloneObjects(parentIds);
+        if (result != null) {
+            clone(result);
+        }
     }
 
     private void clone(clnCloneResult previousResult) {
-        cloneRecords(new List<Id>(previousResult.getOldIds()));
-    }
-
-    private void cloneRecords(List<Id> parentIds) {
-        clnCloneResult result = clnCloner.cloneObjects(parentIds);
+        clnCloneResult result = clnCloner.cloneObjects(previousResult);
         if (result != null) {
             clone(result);
         }

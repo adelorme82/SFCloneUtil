@@ -1,42 +1,46 @@
 public with sharing class clnCloner {
 
     public static clnCloneResult cloneObjects(List<Id> parentIds) {
-
         clnCloneRelationship relationship = clnCloneRelationship.find.getNextRelationship();
         if (relationship == null) {
             return null;
         }
 
+        //---Query for top-most parents
         clnGenericObject.setupFinder(relationship.getParentObject(), null);
         List<clnGenericObject> parents = clnGenericObject.find.byIds(parentIds);
 
-        return clone(parents, parentIds, relationship);
+        //---Clone top-most parents
+        clnCloneResult parentResult = cloneParents(parents);
+
+        //---Clone children
+        List<clnGenericObject> children = getChildren(relationship, parentIds);
+        clnCloneResult childResult = cloneChildren(children, parentResult);
+
+        return childResult;
     }
 
     public static clnCloneResult cloneObjects(clnCloneResult previousCloneResult) {
-
         clnCloneRelationship relationship = clnCloneRelationship.find.getNextRelationship();
         if (relationship == null) {
             return null;
         }
 
-        List<clnGenericObject> parents = previousCloneResult.getOldObjects();
+        //---Do not need to clone parents again, they have already been cloned and saved
         List<Id> parentIds = new List<Id>(previousCloneResult.getOldIds());
 
-        return clone(parents, parentIds, relationship);
-    }
+        //---Query for children
+        List<clnGenericObject> children = getChildren(relationship, parentIds);
 
-    private static clnCloneResult clone(List<clnGenericObject> parents, List<Id> parentIds,  clnCloneRelationship relationship) {
-
-        clnGenericObject.setupFinder(relationship.getChildObject(), relationship.getLookupField());
-        List<clnGenericObject> children = clnGenericObject.find.byParentIds(parentIds);
-
-        clnCloneResult parentResult = cloneParents(parents);
-
-        clnCloneResult childResult = cloneChildren(children, parentResult);
+        //---Clone children
+        clnCloneResult childResult = cloneChildren(children, previousCloneResult);
 
         return childResult;
+    }
 
+    private static List<clnGenericObject> getChildren(clnCloneRelationship relationship, List<Id> parentIds) {
+        clnGenericObject.setupFinder(relationship.getChildObject(), relationship.getLookupField());
+        return clnGenericObject.find.byParentIds(parentIds);
     }
 
     private static clnCloneResult cloneParents(List<clnGenericObject> parents) {
